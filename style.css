@@ -1,0 +1,281 @@
+/* ==================================== */
+/* 1. ESTILOS BASE Y PALETA DE COLORES */
+/* ==================================== */
+
+:root {
+    --color-fondo: #120A2A; /* Violeta muy oscuro */
+    --color-verde-neon: #39FF14;
+    --color-especial: #2ac3db; /* Mezcla verde y violeta */
+    --color-mitico: #ff0090; /* Violeta brillante */
+    --color-violeta-neon: #BC13FE;
+    --color-legendario: #FFD700; /* Dorado */
+    --fuente-titulo: 'Press Start 2P', cursive; /* Fuente pixel art */
+    --fuente-cuerpo: 'Orbitron', sans-serif; /* Fuente futurista */
+
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: var(--fuente-cuerpo);
+    background-color: var(--color-fondo);
+    color: #fff;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.titulo-principal {
+    font-family: var(--fuente-titulo);
+    font-size: 2.5em;
+    color: var(--color-violeta-neon);
+    text-shadow: 0 0 10px var(--color-violeta-neon), 0 0 20px var(--color-verde-neon);
+    letter-spacing: 2px;
+}
+
+/* ==================================== */
+/* 2. CONTENEDOR Y DISPOSICIÓN GRID 4x6 */
+/* ==================================== */
+
+.galeria-contenedor {
+    display: grid;
+    /* 4 columnas exactas, se adaptan al ancho disponible */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive: en pantallas chicas, menos columnas */
+@media (max-width: 768px) {
+    .galeria-contenedor {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==================================== */
+/* 3. ITEM DE PERSONAJE Y ANIMACIONES */
+/* ==================================== */
+
+.foto-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 3px solid transparent; /* Borde base invisible */
+    cursor: pointer;
+    /* Relación de aspecto (ej. 3:4 vertical para personajes) */
+    padding-top: 133.33%; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.foto-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-in-out, filter 0.4s ease-in-out;
+}
+
+/* Efecto Hover General */
+.foto-item:hover img {
+    transform: scale(1.1);
+    filter: brightness(0.4) contrast(1.2); /* Oscurece y aumenta contraste */
+}
+
+/* --- Estilos por Calidad --- */
+
+/* Común (Verde) */
+.foto-item.comun {
+    border-color: var(--color-verde-neon);
+}
+.foto-item.comun:hover {
+    box-shadow: 0 0 15px var(--color-verde-neon);
+}
+.foto-item.comun .titulo-foto,
+.foto-item.comun .enlace-simple:hover {
+    color: var(--color-verde-neon);
+}
+.foto-item.comun .enlace-boton {
+    background-color: var(--color-verde-neon);
+    color: var(--color-fondo);
+}
+
+/* Especial (Mix Verde/Violeta) */
+.foto-item.especial {
+    border-image: linear-gradient(45deg, var(--color-especial), var(--color-especial)) 1;
+}
+.foto-item.especial:hover {
+    box-shadow: 0 0 15px var(--color-especial), 0 0 15px var(--color-especial);
+}
+/* Color intermedio para título */
+.foto-item.especial .titulo-foto { color: #2ac3db; } 
+.foto-item.especial .enlace-boton {
+    background: linear-gradient(90deg, var(--color-especial), var(--color-especial));
+    border: none;
+}
+
+/* Mítico (Violeta) */
+.foto-item.mitico {
+    border-color: var(--color-mitico);
+}
+.foto-item.mitico:hover {
+    box-shadow: 0 0 20px var(--color-mitico);
+}
+.foto-item.mitico .titulo-foto,
+.foto-item.mitico .enlace-simple:hover {
+    color: var(--color-mitico);
+}
+.foto-item.mitico .enlace-boton {
+    background-color: var(--color-mitico);
+}
+
+/* Legendario (Dorado con Aura) */
+.foto-item.legendario {
+    border-color: var(--color-legendario);
+    /* Resplandor constante */
+    box-shadow: 0 0 10px var(--color-legendario), 0 0 20px var(--color-violeta-neon);
+    animation: pulso-legendario 2s infinite alternate;
+}
+@keyframes pulso-legendario {
+    from { box-shadow: 0 0 10px var(--color-legendario), 0 0 20px var(--color-violeta-neon); }
+    to { box-shadow: 0 0 20px var(--color-legendario), 0 0 40px var(--color-violeta-neon); }
+}
+.foto-item.legendario .titulo-foto {
+    color: var(--color-legendario);
+    text-shadow: 0 0 5px var(--color-legendario);
+}
+.foto-item.legendario .enlace-boton {
+    background: linear-gradient(45deg, var(--color-legendario), #FFC107);
+    color: var(--color-fondo);
+    font-weight: bold;
+}
+
+
+/* ==================================== */
+/* 4. CONTENIDO DETALLES Y ENLACES */
+/* ==================================== */
+
+.foto-contenido {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    /* Fondo semi-transparente para leer el texto */
+    background: rgba(18, 10, 42, 0.85); 
+    
+    /* Animación de entrada */
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.foto-item:hover .foto-contenido {
+    transform: translateY(0);
+}
+
+.titulo-foto {
+    margin: 0 0 5px 0;
+    font-family: var(--fuente-titulo);
+    font-size: 1em;
+    /* El color se define por calidad arriba */
+}
+
+.subtitulo-foto {
+    margin: 0 0 15px 0;
+    font-size: 0.85em;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Botón estilo videojuego */
+.enlace-boton {
+    display: block; /* Ocupa todo el ancho */
+    text-align: center;
+    padding: 10px 15px;
+    /* El fondo se define por calidad */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-family: var(--fuente-titulo);
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    transition: filter 0.3s;
+    text-transform: uppercase;
+}
+
+/* =========================== */
+/* SECCIÓN FILTRO DE CATEGORÍAS */
+/* =========================== */
+
+.filtro-categorias {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.titulo-secundario {
+    font-family: var(--fuente-titulo);
+    font-size: 2.2em;
+    color: var(--color-verde-neon);
+    text-shadow: 0 0 15px var(--color-verde-neon);
+    margin-bottom: 10px;
+}
+
+.descripcion-categorias {
+    font-size: 1.1em;
+    opacity: 0.85;
+    margin-bottom: 25px;
+}
+
+.botones-filtro {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-filtro {
+    padding: 10px 22px;
+    border-radius: 30px;
+    background: #1a1428;
+    border: 2px solid #3c314b;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: var(--fuente-cuerpo);
+    transition: all 0.25s ease;
+}
+
+.btn-filtro:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 12px var(--color-violeta-neon);
+}
+
+.btn-filtro.activo {
+    background: var(--color-violeta-neon);
+    border-color: var(--color-violeta-neon);
+    color: #1a1428;
+    font-weight: bold;
+    box-shadow: 0 0 12px var(--color-violeta-neon);
+}
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Blindaje anti-desalineo */
+    margin: 0 auto;
+    text-align: center;
+
+    /* Por si algún contenedor lo empuja */
+    float: none;
+    position: relative;
+    left: 0;
+}
+
