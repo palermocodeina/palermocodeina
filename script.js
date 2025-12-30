@@ -123,11 +123,12 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
-  await setDoc(voteRef, {
-    artistId,
-    category: categoria,
-    user: currentUser.uid
-  });
+await setDoc(
+  artistRef,
+  { [categoria]: increment(1) },
+  { merge: true }
+);
+
 
   await updateDoc(artistRef, {
     [categoria]: increment(1)
