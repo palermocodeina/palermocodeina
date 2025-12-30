@@ -139,4 +139,3 @@ await setDoc(
   btn.disabled = true;
   btn.textContent = "VOTADO";
 });
-
