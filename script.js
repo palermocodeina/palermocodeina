@@ -70,17 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (el) el.textContent = data[cat];
     
   });
-  if (currentUser) {
+if (currentUser) {
   const voteId = `${currentUser.uid}_${artistId}`;
   const voteRef = doc(db, "votes", voteId);
   const voteSnap = await getDoc(voteRef);
 
   if (voteSnap.exists()) {
+    const { category } = voteSnap.data();
     const btn = artista.querySelector(".btn-votar");
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = "VOTADO";
-    }
+    btn.disabled = true;
+    btn.textContent = `VOTADO · ${category.toUpperCase()}`;
+    btn.dataset.votedCategory = category;
   }
 }
 
