@@ -34,3 +34,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("btn-votar")) {
+    const panel = e.target.nextElementSibling;
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  }
+});
+document.addEventListener("click", (e) => {
+
+  if (e.target.dataset.cat) {
+
+    const panel = e.target.closest(".panel-voto");
+    const artista = e.target.closest(".foto-item");
+    const categoria = e.target.dataset.cat;
+
+    const contador = artista.querySelector(
+      `.contador-votos [data-count="${categoria}"]`
+    );
+
+    contador.textContent = parseInt(contador.textContent) + 1;
+  }
+
+});
