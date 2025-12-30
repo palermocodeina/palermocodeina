@@ -1,3 +1,26 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAqpTEr5jk-dL3FC_bWUId4LZNCVWdagV0",
+    authDomain: "palermocodeina.firebaseapp.com",
+    projectId: "palermocodeina",
+    storageBucket: "palermocodeina.firebasestorage.app",
+    messagingSenderId: "253969925378",
+    appId: "1:253969925378:web:d1a77ab98c81eba6e0ae1b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+});
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const botones = document.querySelectorAll(".btn-filtro");
@@ -33,26 +56,86 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    items.forEach(async (artista) => {
+  const artistId = artista.dataset.artistId;
+  if (!artistId) return;
+
+  const ref = doc(db, "artists", artistId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  Object.keys(data).forEach(cat => {
+    const el = artista.querySelector(`[data-count="${cat}"]`);
+    if (el) el.textContent = data[cat];
+    
+  });
+  if (currentUser) {
+  const voteId = `${currentUser.uid}_${artistId}`;
+  const voteRef = doc(db, "votes", voteId);
+  const voteSnap = await getDoc(voteRef);
+
+  if (voteSnap.exists()) {
+    const btn = artista.querySelector(".btn-votar");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "VOTADO";
+    }
+  }
+}
+
+});
+
+
 });
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("btn-votar")) {
-    const panel = e.target.nextElementSibling;
-    panel.style.display = panel.style.display === "block" ? "none" : "block";
-  }
+  if (!e.target.classList.contains("btn-votar")) return;
+
+  document.querySelectorAll(".panel-voto").forEach(p => {
+    p.style.display = "none";
+  });
+
+  const panel = e.target.nextElementSibling;
+  panel.style.display = "block";
 });
-document.addEventListener("click", (e) => {
 
-  if (e.target.dataset.cat) {
+document.addEventListener("click", async (e) => {
 
-    const panel = e.target.closest(".panel-voto");
-    const artista = e.target.closest(".foto-item");
-    const categoria = e.target.dataset.cat;
-
-    const contador = artista.querySelector(
-      `.contador-votos [data-count="${categoria}"]`
-    );
-
-    contador.textContent = parseInt(contador.textContent) + 1;
+  if (!e.target.dataset.cat) return;
+  if (!currentUser) {
+    alert("Tenés que loguearte para votar");
+    return;
   }
 
+  const panel = e.target.closest(".panel-voto");
+  const artista = e.target.closest(".foto-item");
+  const categoria = e.target.dataset.cat;
+
+  const artistId = artista.dataset.artistId;
+  const voteId = `${currentUser.uid}_${artistId}`;
+
+  const voteRef = doc(db, "votes", voteId);
+  const artistRef = doc(db, "artists", artistId);
+
+  const voteSnap = await getDoc(voteRef);
+  if (voteSnap.exists()) {
+    alert("Ya votaste este artista");
+    return;
+  }
+
+  await setDoc(voteRef, {
+    artistId,
+    category: categoria,
+    user: currentUser.uid
+  });
+
+  await updateDoc(artistRef, {
+    [categoria]: increment(1)
+  });
+
+  panel.style.display = "none";
+  const btn = artista.querySelector(".btn-votar");
+  btn.disabled = true;
+  btn.textContent = "VOTADO";
 });
+
