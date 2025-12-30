@@ -56,15 +56,15 @@ header {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
+    padding-top: 0;
     border: 3px solid transparent; /* Borde base invisible */
-    cursor: pointer;
     /* Relación de aspecto (ej. 3:4 vertical para personajes) */
-    padding-top: 133.33%; 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .foto-item img {
+    pointer-events: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -167,9 +167,6 @@ header {
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.foto-item:hover .foto-contenido {
-    transform: translateY(0);
-}
 
 .titulo-foto {
     margin: 0 0 5px 0;
@@ -244,7 +241,7 @@ header {
     transition: all 0.25s ease;
 }
 
-.btn-filtro:hover {
+.btn-filtro {
     transform: translateY(-3px);
     box-shadow: 0 0 12px var(--color-violeta-neon);
 }
@@ -295,7 +292,7 @@ header {
 }
 
 
-.panel-voto button:hover {
+.panel-voto button {
   background: #2ac3db;
   color: #120A2A;
 }
@@ -316,6 +313,12 @@ header {
   transition: background 0.2s ease;
 }
 
+.btn-votar,
+.panel-voto button {
+  touch-action: manipulation;
+}
+
+
 /* =============================== */
 /* MOBILE UX: sin hover, sin drama */
 /* =============================== */
@@ -323,7 +326,6 @@ header {
 @media (hover: none) {
 
   .foto-item {
-    padding-top: 0;
     aspect-ratio: 3 / 4;
   }
 
@@ -340,7 +342,7 @@ header {
     background: rgba(18, 10, 42, 0.92);
   }
 
-  .foto-item:hover img {
+  .foto-item img {
     transform: none;
     filter: none;
   }
