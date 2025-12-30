@@ -41,12 +41,19 @@ header {
 
 .galeria-contenedor {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    max-width: 1400px;
+    /* 4 columnas exactas, se adaptan al ancho disponible */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* Responsive: en pantallas chicas, menos columnas */
+@media (max-width: 768px) {
+    .galeria-contenedor {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
 /* ==================================== */
 /* 3. ITEM DE PERSONAJE Y ANIMACIONES */
@@ -56,15 +63,15 @@ header {
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    padding-top: 0;
     border: 3px solid transparent; /* Borde base invisible */
+    cursor: pointer;
     /* Relación de aspecto (ej. 3:4 vertical para personajes) */
+    padding-top: 133.33%; 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .foto-item img {
-    pointer-events: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -167,6 +174,9 @@ header {
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.foto-item:hover .foto-contenido {
+    transform: translateY(0);
+}
 
 .titulo-foto {
     margin: 0 0 5px 0;
@@ -241,7 +251,7 @@ header {
     transition: all 0.25s ease;
 }
 
-.btn-filtro {
+.btn-filtro:hover {
     transform: translateY(-3px);
     box-shadow: 0 0 12px var(--color-violeta-neon);
 }
@@ -292,7 +302,7 @@ header {
 }
 
 
-.panel-voto button {
+.panel-voto button:hover {
   background: #2ac3db;
   color: #120A2A;
 }
@@ -311,100 +321,4 @@ header {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s ease;
-}
-
-.btn-votar,
-.panel-voto button {
-  touch-action: manipulation;
-}
-
-
-/* =============================== */
-/* MOBILE UX: sin hover, sin drama */
-/* =============================== */
-
-@media (hover: none) {
-
-  .foto-item {
-    aspect-ratio: 3 / 4;
-  }
-
-  .foto-item img {
-    position: relative;
-    height: auto;
-    filter: none;
-    transform: none;
-  }
-
-  .foto-contenido {
-    position: relative;
-    transform: translateY(0);
-    background: rgba(18, 10, 42, 0.92);
-  }
-
-  .foto-item img {
-    transform: none;
-    filter: none;
-  }
-}
-@media (max-width: 600px) {
-
-  body {
-    padding: 12px;
-  }
-
-  .titulo-principal {
-    font-size: 1.6em;
-    letter-spacing: 1px;
-  }
-
-  .titulo-secundario {
-    font-size: 1.5em;
-  }
-
-  .titulo-foto {
-    font-size: 0.9em;
-  }
-
-  .subtitulo-foto {
-    font-size: 0.75em;
-  }
-
-  .enlace-boton {
-    font-size: 0.7em;
-    padding: 12px;
-  }
-
-  .btn-filtro {
-    padding: 10px 16px;
-    font-size: 0.9em;
-  }
-}
-@media (min-width: 1024px) {
-  .foto-item {
-    border-width: 2px;
-  }
-}
-@media (max-width: 600px) {
-
-  .galeria-contenedor {
-    gap: 18px;
-  }
-
-  .foto-contenido {
-    padding: 14px;
-  }
-
-  .panel-voto {
-    padding: 10px;
-  }
-
-  .contador-votos {
-    font-size: 12px;
-  }
-}
-@media (hover: none) {
-  .foto-item:active {
-    transform: scale(0.98);
-  }
 }
