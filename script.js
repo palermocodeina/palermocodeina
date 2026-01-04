@@ -69,11 +69,7 @@ document.addEventListener("click", e => {
 
 document.addEventListener("click", async e => {
   if (!e.target.dataset.cat) return;
-  if (!currentUser) {
-  await loginConGoogle();
-  return;
-}
-
+  if (!currentUser) return alert("Tenés que loguearte para votar");
 
   const artista = e.target.closest(".foto-item");
   const categoria = e.target.dataset.cat;
@@ -85,8 +81,37 @@ document.addEventListener("click", async e => {
     { merge: true }
   );
 
-  artista.querySelector(".panel-voto").style.display = "none";
-  const btn = artista.querySelector(".btn-votar");
-  btn.disabled = true;
-  btn.textContent = "VOTADO";
+// después del setDoc(...)
+artista.querySelector(".panel-voto").style.display = "none";
+const btn = artista.querySelector(".btn-votar");
+btn.disabled = true;
+btn.textContent = `VOTADO · ${categoria.toUpperCase()}`;
+btn.dataset.votedCategory = categoria;
+
+});
+
+document.addEventListener("click", async e => {
+  if (!e.target.classList.contains("btn-votar")) return;
+  if (!e.target.disabled) return;
+
+  const artista = e.target.closest(".foto-item");
+  const artistId = artista.dataset.artistId;
+
+  const ref = doc(db, "artists", artistId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  const voted = e.target.dataset.votedCategory || "—";
+
+  alert(`
+RESULTADOS
+
+Mainstream: ${data.mainstream || 0}
+Especial: ${data.especial || 0}
+Under: ${data.under || 0}
+Mitico: ${data.mitico || 0}
+
+Tu voto: ${voted.toUpperCase()}
+  `);
 });
