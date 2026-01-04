@@ -630,7 +630,7 @@
     <div class="foto-contenido">
         <h3 class="titulo-foto">TAICHU</h3>
         <p class="subtitulo-foto">Calidad: ESPECIAL</p>
-        <a href="https://www.youtube.com/watch?v=7ftnUAG-c8w" class="enlace-boton">HOTCORE</a>
+        <a href="https://www.youtube.com/watch?v=apJirAPxO7w" class="enlace-boton">LOS ANGELES</a>
         <p class="p-enlace"><a href="https://www.instagram.com/fukintayson/" class="enlace-simple">Ver Stats</a></p>
         <button class="btn-votar">VOTAR</button>
         <div class="panel-voto">
@@ -1833,7 +1833,7 @@
     <div class="foto-contenido">
         <h3 class="titulo-foto">BOUMPER X</h3>
         <p class="subtitulo-foto">Calidad: UNDER</p>
-        <a href="https://youtu.be/1KXw4KagH_M" class="enlace-boton">Trap Glitch</a>
+        <a href="https://youtu.be/2O1ZmdakUFo?si=ASSc965PJ0XYdcrx" class="enlace-boton">Otra pill</a>
         <p class="p-enlace"><a href="https://www.instagram.com/boumper_x/" class="enlace-simple">Ver Stats</a></p>
         <button class="btn-votar">VOTAR</button>
         <div class="panel-voto">
@@ -2016,36 +2016,6 @@
 </div> <!-- FIN GALERÍA -->
 <footer>2026</footer>
 <button id="loginGoogle">Login con Google</button>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAqpTEr5jk-dL3FC_bWUId4LZNCVWdagV0",
-    authDomain: "palermocodeina.firebaseapp.com",
-    projectId: "palermocodeina",
-    storageBucket: "palermocodeina.firebasestorage.app",
-    messagingSenderId: "253969925378",
-    appId: "1:253969925378:web:d1a77ab98c81eba6e0ae1b"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
-  document.getElementById("loginGoogle").addEventListener("click", () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        alert("Logueado como: " + result.user.displayName);
-        console.log(result.user);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Error en login");
-      });
-  });
-</script>
 
 </body>
 </html>
