@@ -8,7 +8,7 @@
     --color-especial: #2ac3db; /* Mezcla verde y violeta */
     --color-mitico: #ff0090; /* Violeta brillante */
     --color-violeta-neon: #BC13FE;
-    --color-legendario: #FFD700; /* Dorado */
+    --color-under: #FFD700; /* Dorado */
     --fuente-titulo: 'Press Start 2P', cursive; /* Fuente pixel art */
     --fuente-cuerpo: 'Orbitron', sans-serif; /* Fuente futurista */
 
@@ -134,23 +134,23 @@ header {
     background-color: var(--color-mitico);
 }
 
-/* Legendario (Dorado con Aura) */
-.foto-item.legendario {
-    border-color: var(--color-legendario);
+/* under (Dorado con Aura) */
+.foto-item.under {
+    border-color: var(--color-under);
     /* Resplandor constante */
-    box-shadow: 0 0 10px var(--color-legendario), 0 0 20px var(--color-violeta-neon);
-    animation: pulso-legendario 2s infinite alternate;
+    box-shadow: 0 0 10px var(--color-under), 0 0 20px var(--color-violeta-neon);
+    animation: pulso-under 2s infinite alternate;
 }
-@keyframes pulso-legendario {
-    from { box-shadow: 0 0 10px var(--color-legendario), 0 0 20px var(--color-violeta-neon); }
-    to { box-shadow: 0 0 20px var(--color-legendario), 0 0 40px var(--color-violeta-neon); }
+@keyframes pulso-Under {
+    from { box-shadow: 0 0 10px var(--color-under), 0 0 20px var(--color-violeta-neon); }
+    to { box-shadow: 0 0 20px var(--color-under), 0 0 40px var(--color-violeta-neon); }
 }
-.foto-item.legendario .titulo-foto {
-    color: var(--color-legendario);
-    text-shadow: 0 0 5px var(--color-legendario);
+.foto-item.under .titulo-foto {
+    color: var(--color-under);
+    text-shadow: 0 0 5px var(--color-under);
 }
-.foto-item.legendario .enlace-boton {
-    background: linear-gradient(45deg, var(--color-legendario), #FFC107);
+.foto-item.under .enlace-boton {
+    background: linear-gradient(45deg, var(--color-under), #FFC107);
     color: var(--color-fondo);
     font-weight: bold;
 }
