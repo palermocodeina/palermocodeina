@@ -33,22 +33,25 @@ onAuthStateChanged(auth, user => {
   currentUser = user;
 });
 
-document.querySelectorAll(".btn-filtro").forEach(btn => {
-  btn.addEventListener("click", () => {
-    // 1️⃣ Quitar la clase "activo" de todos los botones
-    document.querySelectorAll(".btn-filtro").forEach(b => b.classList.remove("activo"));
-    
-    // 2️⃣ Poner la clase "activo" al botón que se clickeó
-    btn.classList.add("activo");
+document.addEventListener("DOMContentLoaded", () => {
+  const botones = document.querySelectorAll(".btn-filtro");
+  const items = document.querySelectorAll(".foto-item");
 
-    // 3️⃣ Obtener el filtro que corresponde al botón
-    const filtro = btn.dataset.filtro;
+  botones.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Quitar activo de todos
+      botones.forEach(b => b.classList.remove("activo"));
+      // Marcar este botón como activo
+      btn.classList.add("activo");
 
-    // 4️⃣ Mostrar u ocultar elementos según el filtro
-    document.querySelectorAll(".foto-item").forEach(item => {
-      item.style.display = filtro === "todos" || item.classList.contains(filtro)
-        ? "block"   // mostrar si es "todos" o si tiene la clase del filtro
-        : "none";   // ocultar si no cumple
+      const filtro = btn.dataset.filtro;
+
+      items.forEach(item => {
+        // Mostrar si filtro es "todos" o item tiene clase correspondiente
+        item.style.display = filtro === "todos" || item.classList.contains(filtro)
+          ? "block"
+          : "none";
+      });
     });
   });
 });
