@@ -71,10 +71,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("click", async e => {
 
   // LOGIN
-  if (e.target.id === "loginGoogle") {
+  if (e.target.dataset.cat) {
+  if (!currentUser) {
     await loginConGoogle();
-    return;
+    if (!currentUser) return;
   }
+  // votar
+}
+
 
   // ABRIR PANEL / VER RESULTADOS
   if (e.target.classList.contains("btn-votar")) {
