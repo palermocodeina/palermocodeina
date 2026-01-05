@@ -33,6 +33,27 @@ onAuthStateChanged(auth, user => {
   currentUser = user;
 });
 
+document.querySelectorAll(".btn-filtro").forEach(btn => {
+  btn.addEventListener("click", () => {
+    // 1️⃣ Quitar la clase "activo" de todos los botones
+    document.querySelectorAll(".btn-filtro").forEach(b => b.classList.remove("activo"));
+    
+    // 2️⃣ Poner la clase "activo" al botón que se clickeó
+    btn.classList.add("activo");
+
+    // 3️⃣ Obtener el filtro que corresponde al botón
+    const filtro = btn.dataset.filtro;
+
+    // 4️⃣ Mostrar u ocultar elementos según el filtro
+    document.querySelectorAll(".foto-item").forEach(item => {
+      item.style.display = filtro === "todos" || item.classList.contains(filtro)
+        ? "block"   // mostrar si es "todos" o si tiene la clase del filtro
+        : "none";   // ocultar si no cumple
+    });
+  });
+});
+
+
 // ===============================
 // 🔐 LOGIN
 // ===============================
