@@ -70,47 +70,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ===============================
 document.addEventListener("click", async e => {
 
-  // LOGIN
-  if (e.target.dataset.cat) {
-  if (!currentUser) {
-    await loginConGoogle();
-    if (!currentUser) return;
-  }
-  // votar
-}
-
-
-  // ABRIR PANEL / VER RESULTADOS
+  /* === BOTÓN VOTAR === */
   if (e.target.classList.contains("btn-votar")) {
-    const btn = e.target;
-    const artista = btn.closest(".foto-item");
-    const panel = artista.querySelector(".panel-voto");
+    const panel = e.target.nextElementSibling;
 
-    // Si ya votó → mostrar resultados
-    if (btn.dataset.voted === "true") {
-      mostrarResultados(artista, btn.dataset.votedCategory);
-      return;
-    }
+    // cerrar otros
+    document.querySelectorAll(".panel-voto").forEach(p => p.style.display = "none");
 
-    // Si no está logueado → login automático
+    panel.style.display = "block";
+    return;
+  }
+
+  /* === CLICK EN CATEGORÍA === */
+  if (e.target.dataset.cat) {
+
+    // LOGIN SOLO ACÁ
     if (!currentUser) {
       await loginConGoogle();
       if (!currentUser) return;
     }
 
-    // Abrir panel
-    document.querySelectorAll(".panel-voto").forEach(p => p.style.display = "none");
-    panel.style.display = "block";
-    return;
-  }
-
-  // VOTAR
-  if (e.target.dataset.cat) {
-    const categoria = e.target.dataset.cat;
+    // === VOTAR ===
     const artista = e.target.closest(".foto-item");
+    const categoria = e.target.dataset.cat;
     const artistId = artista.dataset.artistId;
-
-    if (!currentUser) return;
 
     await setDoc(
       doc(db, "artists", artistId),
@@ -118,24 +101,16 @@ document.addEventListener("click", async e => {
       { merge: true }
     );
 
-    // UI
-    artista.querySelector(".panel-voto").style.display = "none";
     const btn = artista.querySelector(".btn-votar");
     btn.textContent = `VOTADO · ${categoria.toUpperCase()}`;
-    btn.dataset.voted = "true";
     btn.dataset.votedCategory = categoria;
+    btn.dataset.voted = "true";
 
-    // Incrementar contador local
-    const counter = artista.querySelector(`[data-count="${categoria}"]`);
-    if (counter) counter.textContent = parseInt(counter.textContent) + 1;
+    artista.querySelector(".panel-voto").style.display = "none";
+    return;
   }
 
 });
 
-// ===============================
-// 📊 RESULTADOS
-// ===============================
-async function mostrarResultados(artista, votedCat) {
-  const artistId = artista.dataset.artistId;
-  const snap = await getDoc(doc(db, "artists", artistId));
-  if (!snap.exists()) return;
+
+   
